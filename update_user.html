@@ -1,0 +1,75 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <div class="principalClass">
+    <header>
+        <h2 class="modalTitle">Fill the Form</h2>
+     </header>
+        <form action="add_user.php" method="POST">
+            <div>
+                <label for="id_user">Id_user</label>
+                <input type="id_user">
+            </div>
+            <div>
+                <label for="login">Login</label>
+                <input type="login">
+            </div>
+            <div>
+                <label for="password">Password</label>
+                <input type="password">
+            </div>
+            <div>
+                <label for="type_user">Type</label>
+                <input type="type_user">
+            </div>
+        </form>
+        <footer class="popupFooter">
+            <button form="myForm" class="submitBtn">Submit</button>
+         </footer>
+   </div> 
+    
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <div class="principalClass">
+    <header>
+        <h2 class="modalTitle">Fill the Form</h2>
+     </header>
+        <form id="myForm" action="update_user.php" method="POST">
+            <div>
+                <label for="id_user">Id_user</label>
+                <input type="text" id="id_user" name="id_user" required>
+            </div>
+            <div>
+                <label for="login">Login</label>
+                <input type="text" id="login" name="login" required>
+            </div>
+            <div>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div>
+                <label for="type_user">Type</label>
+                <input type="text" id="type_user" name="type_user" required>
+            </div>
+        </form>
+        <footer class="popupFooter">
+            <button form="myForm" class="submitBtn">Submit</button>
+         </footer>
+   </div> 
+    
+</body>
+</html>
