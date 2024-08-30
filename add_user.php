@@ -1,6 +1,6 @@
 <?php
 // Assuming you already have a connection to the database established
-include 'database_connection.php'; // Include your database connection file
+include 'db_connection.php'; // Include your database connection file
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_user = $_POST['id_user'];
@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $type_user = $_POST['type_user'];
 
     // Insert the user data into the database
-    $stmt = $conn->prepare("INSERT INTO users (id_user, login, password, type_user) VALUES (?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO user (id_user, login, password, type_user) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("ssss", $id_user, $login, $password, $type_user);
 
     if ($stmt->execute()) {

@@ -8,9 +8,10 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link rel="stylesheet" href="style.css">
 	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+	<link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
 	<title>Homepage</title>
 	<!-- Add this script section to users.html -->
-<script>
+<!-- <script>
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.querySelector('form');
         form.addEventListener('submit', function(event) {
@@ -54,7 +55,7 @@
             .catch(error => console.error('Error:', error));
         });
     });
-</script>
+</script> -->
 
 </head>
 
@@ -65,8 +66,6 @@
 	<section id="sidebar">
 		<a href="#" class="brand">
 			<i class='bx bxs-smile'></i>
-			<!-- <i class='bx bxs-glass' style='color: black;'></i> -->
-			<!-- <box-icon name='glasses'></box-icon> -->
 			<span class="text">Optician</span>
 		</a>
 		<ul class="side-menu top">
@@ -89,7 +88,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="users.html">
+				<a href="users.php">
 					<i class='bx bxs-group' ></i>
 					<span class="text">Users</span>
 				</a>
@@ -138,44 +137,51 @@
 		<!-- NAVBAR -->
 
 		<!-- MAIN -->
-		<main >
-			<div class="container">
-				<header>
+		<main>
+    <div class="container">
+        <header>
+            <button onclick="window.location.href='add.php';" class="btn-add">Add User</button>
+        </header>
+        <div class="p-6 overflow-scroll px-0">
+            <table class="mt-4 w-full min-w-max table-auto text-left">
+                <thead>
+                    <tr class="bg-blue-gray-50/50">
+                        <th class="cursor-pointer border-y border-blue-gray-100 p-4 transition-colors hover:bg-blue-gray-50">ID_User</th>
+                        <th class="cursor-pointer border-y border-blue-gray-100 p-4 transition-colors hover:bg-blue-gray-50">Login</th>
+                        <th class="cursor-pointer border-y border-blue-gray-100 p-4 transition-colors hover:bg-blue-gray-50">Password</th>
+                        <th class="cursor-pointer border-y border-blue-gray-100 p-4 transition-colors hover:bg-blue-gray-50">Type User</th>
+                        <th class="cursor-pointer border-y border-blue-gray-100 p-4 transition-colors hover:bg-blue-gray-50">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="userInfo">
+                    <?php
+                    include 'db_connection.php';
+                    $sql = "SELECT id_user, login, password, type_user FROM user";
+                    $result = $conn->query($sql);
 
-						<div class="filter">
-							<label for="search">Search:</label>
-							<input type="search" name="" id="search" placeholder="Enter Id_cmd/Date">
-						</div>
-                        <div>
-                            <button><a href="form_user.html">New user</a></button>
-                        </div>
-				</header>
-				<table>
+                    if ($result->num_rows > 0) {
+                        while ($user = $result->fetch_assoc()) {
+                            echo "<tr class='border-b border-blue-gray-50'>";
+                            echo "<td class='p-4 text-blue-gray-900'>{$user['id_user']}</td>";
+                            echo "<td class='p-4 text-blue-gray-900'>{$user['login']}</td>";
+                            echo "<td class='p-4 text-blue-gray-900'>{$user['password']}</td>";
+                            echo "<td class='p-4 text-blue-gray-900'>{$user['type_user']}</td>";
+                            echo "<td class='p-4'>
+                                    <a href='update.php?id={$user['id_user']}' class='text-blue-500 hover:underline'>Update</a> | 
+                                    <a href='delete.php?id={$user['id_user']}' class='text-red-500 hover:underline' onclick=\"return confirm('Are you sure you want to delete this user?');\">Delete</a>
+                                  </td>";
+                            echo "</tr>";
+                        }
+                    } else {
+                        echo "<tr><td colspan='5' class='p-4 text-center'>No users found</td></tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
 
-					<thead>
-						<tr class="heading">
-							<th>Id_user</th>
-							<th>Login</th>
-							<th>Password</th>
-							<th>Type</th>
-							<th class="actions">
-								<a href="update.php?id=<?=$contact['id']?>" class="edit"><i class="fas fa-pen fa-xs"></i></a>
-								<a href="delete.php?id=<?=$contact['id']?>" class="trash"><i class="fas fa-trash fa-xs"></i></a>
-							</th>
-							
-						</tr>
-					</thead>
-
-
-					<tbody class="userInfo">
-					</tbody>
-
-				</table>
-
-
-			</div>
-
-		</main>
 		<!-- MAIN -->
 	</section>
 	<!-- CONTENT -->

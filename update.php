@@ -1,48 +1,49 @@
 <?php
-include 'functions.php';
-$pdo = pdo_connect_mysql();
-$msg = '';
-// Check if the contact id exists, for example update.php?id=1 will get the contact with the id of 1
-if (isset($_GET['id_user'])) {
-    if (!empty($_POST)) {
-        // This part is similar to the create.php, but instead we update a record and not insert
-        $id_user = isset($_POST['id_user']) ? $_POST['id_user'] : NULL;
-        $login = isset($_POST['login']) ? $_POST['login'] : '';
-        $password = isset($_POST['password']) ? $_POST['password'] : '';
-        $type_user = isset($_POST['type_user']) ? $_POST['type_user'] : '';
-        // Update the record
-        $stmt = $pdo->prepare('UPDATE user SET id_user = ?, login = ?, password = ?, type_user = ? WHERE id_user = ?');
-        $stmt->execute([$id_user, $login, $password, $type_user, $_GET['id_user']]);
-        $msg = 'Updated Successfully!';
-    }
-    // Get the contact from the contacts table
-    $stmt = $pdo->prepare('SELECT * FROM user WHERE id_user = ?');
-    $stmt->execute([$_GET['id_user']]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    if (!$user) {
-        exit('Contact doesn\'t exist with that ID!');
-    }
+include 'db_connection.php';
+
+if (isset($_GET['id'])) {
+    $id_user = intval($_GET['id']);
+    $sql = "SELECT id_user, login, password, type_user FROM user WHERE id_user = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id_user);
+    $stmt->execute();
+    $stmt->bind_result($id_user, $login, $password, $type_user);
+    $stmt->fetch();
+    $stmt->close();
 } else {
-    exit('No ID specified!');
+    echo "Invalid request";
+    exit();
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $login = $_POST['login'];
+    $password = $_POST['password'];
+    $type_user = $_POST['type_user'];
+
+    $sql = "UPDATE user SET login = ?, password = ?, type_user = ? WHERE id_user = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sssi", $login, $password, $type_user, $id_user);
+
+    if ($stmt->execute()) {
+        echo "User updated successfully";
+    } else {
+        echo "Error updating user: " . $conn->error;
+    }
+
+    $stmt->close();
+    $conn->close();
+
+    header("Location: users.php");
+    exit();
 }
 ?>
 
-
-
-<div class="content update">
-	<h2>Update User #<?=$user['id_user']?></h2>
-    <form action="update.php?id_user=<?=$user['id_user']?>" method="post">
-        <label for="id_user">ID_USER</label>
-        <label for="login">Login</label>
-        <input type="text" name="id_user" placeholder="1" value="<?=$user['id_user']?>" id="id_user">
-        <input type="text" name="login"  value="<?=$user['login']?>" id="login">
-        <label for="password">Password</label>
-        <label for="type_user">Type_user</label>
-        <input type="text" name="password"  value="<?=$user['password']?>" id="password">
-        <input type="text" name="type_user" value="<?=$user['type_user']?>" id="type_user">
-        <input type="submit" value="Update">
-    </form>
-    <?php if ($msg): ?>
-    <p><?=$msg?></p>
-    <?php endif; ?>
-</div>
+<form method="POST">
+    <label>Login:</label>
+    <input type="text" name="login" value="<?php echo htmlspecialchars($login); ?>" required><br>
+    <label>Password:</label>
+    <input type="password" name="password" value="<?php echo htmlspecialchars($password); ?>" required><br>
+    <label>Type User:</label>
+    <input type="text" name="type_user" value="<?php echo htmlspecialchars($type_user); ?>" required><br>
+    <input type="submit" value="Update User">
+</form>
