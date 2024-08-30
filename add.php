@@ -70,5 +70,7 @@ if (isset($_POST['submit'])) {
     // Close the statement and connection
     $stmt->close();
     $conn->close();
+    header("Location: users.php");
+    exit();
 }
 ?>

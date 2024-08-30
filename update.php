@@ -38,12 +38,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 ?>
 
-<form method="POST">
-    <label>Login:</label>
-    <input type="text" name="login" value="<?php echo htmlspecialchars($login); ?>" required><br>
-    <label>Password:</label>
-    <input type="password" name="password" value="<?php echo htmlspecialchars($password); ?>" required><br>
-    <label>Type User:</label>
-    <input type="text" name="type_user" value="<?php echo htmlspecialchars($type_user); ?>" required><br>
-    <input type="submit" value="Update User">
-</form>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update User</title>
+    <link rel="stylesheet" type="text/css" href="form.css" media="screen">
+</head>
+<body>
+    <h1>Update User</h1>
+    <form method="POST" action="">
+        <div class="campo">
+            <label for="login"><strong>Login: </strong></label>
+            <input type="text" name="login" id="login" value="<?php echo htmlspecialchars($login); ?>" required>
+        </div>
+        <div class="campo">
+            <label for="password"><strong>Password: </strong></label>
+            <input type="password" name="password" id="password" value="<?php echo htmlspecialchars($password); ?>" required>
+        </div>
+        <div class="campo">
+            <label for="type_user"><strong>Type: </strong></label>
+            <select id="type_user" name="type_user" required>
+                <option value="Simple" <?php echo ($type_user == 'Simple') ? 'selected' : ''; ?>>Simple</option>
+                <option value="Admin" <?php echo ($type_user == 'Admin') ? 'selected' : ''; ?>>Admin</option>
+            </select>
+        </div>
+        <button class="botao" type="submit">Update User</button>
+    </form>
+</body>
+</html>
