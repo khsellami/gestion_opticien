@@ -3,7 +3,7 @@ include 'db_connection.php';
 
 $query = isset($_GET['query']) ? trim($_GET['query']) : '';
 
-$sql = "SELECT id_user, login, password, type_user FROM user WHERE id_user LIKE ? OR login LIKE ?";
+$sql = "SELECT id_fur, marque, tele_fur, adresse_fur, email_fur FROM furnisher WHERE id_fur LIKE ? OR marque LIKE ?";
 
 $stmt = $conn->prepare($sql);
 
@@ -109,11 +109,11 @@ $result = $stmt->get_result();
         <main>
             <div class="container mx-auto px-4">
                 <header class="flex justify-between mb-4">
-                    <button onclick="window.location.href='add.php';" class="bg-blue-500 text-white font-bold py-2 px-4 rounded">
-                        Add User
+                    <button onclick="window.location.href='add_fur.php';" class="bg-blue-500 text-white font-bold py-2 px-4 rounded">
+                        Add Furnisher
                     </button>
-                    <form action="search.php" method="GET" class="flex">
-                        <input type="text" name="query" value="<?php echo htmlspecialchars($query); ?>" placeholder="Search by ID or Login" class="px-4 py-2 border rounded-l focus:outline-none w-64">
+                    <form action="search_fur.php" method="GET" class="flex">
+                        <input type="text" name="query" value="<?php echo htmlspecialchars($query); ?>" placeholder="Search by ID or Marque" class="px-4 py-2 border rounded-l focus:outline-none w-64">
                         <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-r">
                             Search
                         </button>
@@ -123,30 +123,32 @@ $result = $stmt->get_result();
                     <table class="min-w-full bg-gray-800 text-white rounded-lg overflow-hidden shadow-lg">
                         <thead class="bg-gray-700">
                             <tr>
-                                <th class="py-3 px-5 text-left text-sm font-medium uppercase tracking-wider">ID_User</th>
-                                <th class="py-3 px-5 text-left text-sm font-medium uppercase tracking-wider">Login</th>
-                                <th class="py-3 px-5 text-left text-sm font-medium uppercase tracking-wider">Password</th>
-                                <th class="py-3 px-5 text-left text-sm font-medium uppercase tracking-wider">Type User</th>
+                                <th class="py-3 px-5 text-left text-sm font-medium uppercase tracking-wider">ID_Fur</th>
+                                <th class="py-3 px-5 text-left text-sm font-medium uppercase tracking-wider">Marque</th>
+                                <th class="py-3 px-5 text-left text-sm font-medium uppercase tracking-wider">Telephone</th>
+                                <th class="py-3 px-5 text-left text-sm font-medium uppercase tracking-wider">Adresse</th>
+                                <th class="py-3 px-5 text-left text-sm font-medium uppercase tracking-wider">Email</th>
                                 <th class="py-3 px-5 text-left text-sm font-medium uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-600">
                             <?php
                             if ($result->num_rows > 0) {
-                                while ($user = $result->fetch_assoc()) {
+                                while ($furnisher = $result->fetch_assoc()) {
                                     echo "<tr class='hover:bg-gray-700 transition duration-200'>";
-                                    echo "<td class='py-3 px-5 text-sm'>{$user['id_user']}</td>";
-                                    echo "<td class='py-3 px-5 text-sm'>{$user['login']}</td>";
-                                    echo "<td class='py-3 px-5 text-sm'>{$user['password']}</td>";
-                                    echo "<td class='py-3 px-5 text-sm'>{$user['type_user']}</td>";
+                                    echo "<td class='py-3 px-5 text-sm'>{$furnisher['id_fur']}</td>";
+                                    echo "<td class='py-3 px-5 text-sm'>{$furnisher['marque']}</td>";
+                                    echo "<td class='py-3 px-5 text-sm'>{$furnisher['tele_fur']}</td>";
+                                    echo "<td class='py-3 px-5 text-sm'>{$furnisher['adresse_fur']}</td>";
+                                    echo "<td class='py-3 px-5 text-sm'>{$furnisher['email_fur']}</td>";
                                     echo "<td class='py-3 px-5 text-sm'>
-                                            <a href='update.php?id={$user['id_user']}' class='text-blue-400 hover:text-blue-300'>Update</a> | 
-                                            <a href='delete.php?id={$user['id_user']}' class='text-red-400 hover:text-red-300' onclick=\"return confirm('Are you sure you want to delete this user?');\">Delete</a>
+                                            <a href='update_fur.php?id={$furnisher['id_fur']}' class='text-blue-400 hover:text-blue-300'>Update</a> | 
+                                            <a href='delete_fur.php?id={$furnisher['id_fur']}' class='text-red-400 hover:text-red-300' onclick=\"return confirm('Are you sure you want to delete this furnisher?');\">Delete</a>
                                           </td>";
                                     echo "</tr>";
                                 }
                             } else {
-                                echo "<tr><td colspan='5' class='text-center py-4 text-sm text-gray-400'>No users found</td></tr>";
+                                echo "<tr><td colspan='6' class='text-center py-4 text-sm text-gray-400'>No furnishers found</td></tr>";
                             }
                             ?>
                         </tbody>

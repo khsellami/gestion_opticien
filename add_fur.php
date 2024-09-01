@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <title>Add New User</title>
+    <title>Add New Furnisher</title>
 </head>
 
 <body>
@@ -39,15 +39,15 @@
                     <span class="text">Furnishers</span>
                 </a>
             </li>
-            <li class="active">
+            <li>
                 <a href="users.php">
                     <i class='bx bxs-user'></i>
                     <span class="text">Users</span>
                 </a>
             </li>
             <li>
-            <a href="glasses.php">
-            <i class='bx bx-glasses'></i>
+                <a href="glasses.php">
+                <i class='bx bx-glasses'></i>
                     <span class="text">Glasses</span>
                 </a>
             </li>
@@ -91,31 +91,28 @@
         <!-- MAIN -->
         <main>
             <div class="container mx-auto px-4 py-6">
-                <form method="POST" action="add.php" class="max-w-lg mx-auto bg-white p-8 rounded-xl shadow-lg mt-10">
-    <h2 class="text-2xl font-semibold mb-6 text-center text-gray-800">Add New User</h2>
-    <div class="mb-5">
-        <label for="id_user" class="block text-sm font-medium text-gray-700 mb-1">ID User</label>
-        <input type="text" name="id_user" id="id_user" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent" required>
-    </div>
-    <div class="mb-5">
-        <label for="login" class="block text-sm font-medium text-gray-700 mb-1">Login</label>
-        <input type="text" name="login" id="login" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent" required>
-    </div>
-    <div class="mb-5">
-        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-        <input type="password" name="password" id="password" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent" required>
-    </div>
-    <div class="mb-5">
-        <label for="type_user" class="block text-sm font-medium text-gray-700 mb-1">Type</label>
-        <select id="type_user" name="type_user" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent" required>
-            <option value="Simple">Simple</option>
-            <option value="Admin">Admin</option>
-        </select>
-    </div>
-    <div class="text-center">
-        <button type="submit" name="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300">Add User</button>
-    </div>
-</form>
+                <form method="POST" action="add_fur.php" class="max-w-lg mx-auto bg-white p-8 rounded-xl shadow-lg mt-10">
+                    <h2 class="text-2xl font-semibold mb-6 text-center text-gray-800">Add New Furnisher</h2>
+                    <div class="mb-5">
+                        <label for="marque" class="block text-sm font-medium text-gray-700 mb-1">Marque</label>
+                        <input type="text" name="marque" id="marque" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent" required>
+                    </div>
+                    <div class="mb-5">
+                        <label for="tele_fur" class="block text-sm font-medium text-gray-700 mb-1">Telephone</label>
+                        <input type="text" name="tele_fur" id="tele_fur" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent" required>
+                    </div>
+                    <div class="mb-5">
+                        <label for="email_fur" class="block text-sm font-medium text-gray-700 mb-1">Email Furnisher</label>
+                        <input type="email" name="email_fur" id="email_fur" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent" required>
+                    </div>
+                    <div class="mb-5">
+                        <label for="adresse_fur" class="block text-sm font-medium text-gray-700 mb-1">Adresse</label>
+                        <input type="text" name="adresse_fur" id="adresse_fur" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" name="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300">Add Furnisher</button>
+                    </div>
+                </form>
             </div>
         </main>
         <!-- MAIN -->
@@ -124,10 +121,10 @@
 
     <?php
     if (isset($_POST['submit'])) {
-        $id_user = $_POST['id_user'];
-        $login = $_POST['login'];
-        $password = $_POST['password'];
-        $type_user = $_POST['type_user'];
+        $marque = $_POST['marque'];
+        $tele_fur = $_POST['tele_fur'];
+        $email_fur = $_POST['email_fur'];
+        $adresse_fur = $_POST['adresse_fur'];
 
         $servername = "localhost";
         $username = "root";
@@ -140,16 +137,35 @@
             die("Connection failed: " . $conn->connect_error);
         }
 
-        $stmt = $conn->prepare("INSERT INTO user (id_user, login, password, type_user) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss", $id_user, $login, $password, $type_user);
+        $stmt = $conn->prepare("INSERT INTO furnisher (marque, tele_fur, email_fur, adresse_fur) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssss", $marque, $tele_fur, $email_fur, $adresse_fur);
 
         if ($stmt->execute()) {
-            echo "<script>alert('New user added successfully.'); window.location.href='users.php';</script>";
+            $id_fur = $stmt->insert_id;
+
+            $sql_glasses = "SELECT id_glass FROM glass WHERE libelle = ?";
+            $stmt_glasses = $conn->prepare($sql_glasses);
+            $stmt_glasses->bind_param("s", $marque);
+            $stmt_glasses->execute();
+            $result_glasses = $stmt_glasses->get_result();
+
+            $insert_detail = "INSERT INTO details_fur_glass (id_fur, id_glass) VALUES (?, ?)";
+            $stmt_detail = $conn->prepare($insert_detail);
+
+            while ($row = $result_glasses->fetch_assoc()) {
+                $id_glass = $row['id_glass'];
+                $stmt_detail->bind_param("ii", $id_fur, $id_glass);
+                $stmt_detail->execute();
+            }
+
+            echo "<script>alert('New furnisher added successfully.'); window.location.href='furnishers.php';</script>";
         } else {
             echo "<script>alert('Error: " . $stmt->error . "');</script>";
         }
 
         $stmt->close();
+        $stmt_glasses->close();
+        $stmt_detail->close();
         $conn->close();
     }
     ?>

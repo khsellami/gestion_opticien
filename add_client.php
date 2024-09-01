@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <title>Add New User</title>
+    <title>Add New Client</title>
 </head>
 
 <body>
@@ -39,15 +39,15 @@
                     <span class="text">Furnishers</span>
                 </a>
             </li>
-            <li class="active">
+            <li>
                 <a href="users.php">
-                    <i class='bx bxs-user'></i>
+                <i class='bx bxs-user'></i>
                     <span class="text">Users</span>
                 </a>
             </li>
             <li>
-            <a href="glasses.php">
-            <i class='bx bx-glasses'></i>
+                <a href="glasses.php">
+                <i class='bx bx-glasses'></i>
                     <span class="text">Glasses</span>
                 </a>
             </li>
@@ -91,31 +91,28 @@
         <!-- MAIN -->
         <main>
             <div class="container mx-auto px-4 py-6">
-                <form method="POST" action="add.php" class="max-w-lg mx-auto bg-white p-8 rounded-xl shadow-lg mt-10">
-    <h2 class="text-2xl font-semibold mb-6 text-center text-gray-800">Add New User</h2>
-    <div class="mb-5">
-        <label for="id_user" class="block text-sm font-medium text-gray-700 mb-1">ID User</label>
-        <input type="text" name="id_user" id="id_user" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent" required>
-    </div>
-    <div class="mb-5">
-        <label for="login" class="block text-sm font-medium text-gray-700 mb-1">Login</label>
-        <input type="text" name="login" id="login" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent" required>
-    </div>
-    <div class="mb-5">
-        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-        <input type="password" name="password" id="password" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent" required>
-    </div>
-    <div class="mb-5">
-        <label for="type_user" class="block text-sm font-medium text-gray-700 mb-1">Type</label>
-        <select id="type_user" name="type_user" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent" required>
-            <option value="Simple">Simple</option>
-            <option value="Admin">Admin</option>
-        </select>
-    </div>
-    <div class="text-center">
-        <button type="submit" name="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300">Add User</button>
-    </div>
-</form>
+                <form method="POST" action="add_client.php" class="max-w-lg mx-auto bg-white p-8 rounded-xl shadow-lg mt-10">
+                    <h2 class="text-2xl font-semibold mb-6 text-center text-gray-800">Add New Client</h2>
+                    <div class="mb-5">
+                        <label for="nom_client" class="block text-sm font-medium text-gray-700 mb-1">Nom Client</label>
+                        <input type="text" name="nom_client" id="nom_client" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent" required>
+                    </div>
+                    <div class="mb-5">
+                        <label for="prenom_client" class="block text-sm font-medium text-gray-700 mb-1">Prenom Client</label>
+                        <input type="text" name="prenom_client" id="prenom_client" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent" required>
+                    </div>
+                    <div class="mb-5">
+                        <label for="email_client" class="block text-sm font-medium text-gray-700 mb-1">Email Client</label>
+                        <input type="email" name="email_client" id="email_client" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent" required>
+                    </div>
+                    <div class="mb-5">
+                        <label for="assurance" class="block text-sm font-medium text-gray-700 mb-1">Assurance</label>
+                        <input type="text" name="assurance" id="assurance" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" name="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300">Add Client</button>
+                    </div>
+                </form>
             </div>
         </main>
         <!-- MAIN -->
@@ -124,10 +121,10 @@
 
     <?php
     if (isset($_POST['submit'])) {
-        $id_user = $_POST['id_user'];
-        $login = $_POST['login'];
-        $password = $_POST['password'];
-        $type_user = $_POST['type_user'];
+        $nom_client = $_POST['nom_client'];
+        $prenom_client = $_POST['prenom_client'];
+        $email_client = $_POST['email_client'];
+        $assurance = $_POST['assurance'];
 
         $servername = "localhost";
         $username = "root";
@@ -140,11 +137,11 @@
             die("Connection failed: " . $conn->connect_error);
         }
 
-        $stmt = $conn->prepare("INSERT INTO user (id_user, login, password, type_user) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss", $id_user, $login, $password, $type_user);
+        $stmt = $conn->prepare("INSERT INTO client (nom_client, prenom_client, email_client, assurance) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssss", $nom_client, $prenom_client, $email_client, $assurance);
 
         if ($stmt->execute()) {
-            echo "<script>alert('New user added successfully.'); window.location.href='users.php';</script>";
+            echo "<script>alert('New client added successfully.'); window.location.href='customers.php';</script>";
         } else {
             echo "<script>alert('Error: " . $stmt->error . "');</script>";
         }

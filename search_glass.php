@@ -1,9 +1,8 @@
 <?php
 include 'db_connection.php';
-
 $query = isset($_GET['query']) ? trim($_GET['query']) : '';
 
-$sql = "SELECT id_user, login, password, type_user FROM user WHERE id_user LIKE ? OR login LIKE ?";
+$sql = "SELECT id_glass, libelle, type, type_glass, SPH, cylindre FROM glass WHERE id_glass LIKE ? OR libelle LIKE ?";
 
 $stmt = $conn->prepare($sql);
 
@@ -33,7 +32,7 @@ $result = $stmt->get_result();
 
     <!-- SIDEBAR -->
     <section id="sidebar">
-        <a href="#" class="brand">
+        <a href=" class="brand">
             <i class='bx bx-glasses'></i>
             <span class="text">Optician</span>
         </a>
@@ -83,7 +82,7 @@ $result = $stmt->get_result();
                 </a>
             </li>
             <li>
-                <a href="login_page/login_page.php" class="logout">
+                <a href="#" class="logout">
                     <i class='bx bxs-log-out-circle'></i>
                     <span class="text">Logout</span>
                 </a>
@@ -109,11 +108,11 @@ $result = $stmt->get_result();
         <main>
             <div class="container mx-auto px-4">
                 <header class="flex justify-between mb-4">
-                    <button onclick="window.location.href='add.php';" class="bg-blue-500 text-white font-bold py-2 px-4 rounded">
-                        Add User
+                    <button onclick="window.location.href='add_glass.php';" class="bg-blue-500 text-white font-bold py-2 px-4 rounded">
+                        Add Glass
                     </button>
-                    <form action="search.php" method="GET" class="flex">
-                        <input type="text" name="query" value="<?php echo htmlspecialchars($query); ?>" placeholder="Search by ID or Login" class="px-4 py-2 border rounded-l focus:outline-none w-64">
+                    <form action="search_glass.php" method="GET" class="flex">
+                        <input type="text" name="query" value="<?php echo htmlspecialchars($query); ?>" placeholder="Search by ID or Libelle" class="px-4 py-2 border rounded-l focus:outline-none w-64">
                         <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-r">
                             Search
                         </button>
@@ -123,30 +122,34 @@ $result = $stmt->get_result();
                     <table class="min-w-full bg-gray-800 text-white rounded-lg overflow-hidden shadow-lg">
                         <thead class="bg-gray-700">
                             <tr>
-                                <th class="py-3 px-5 text-left text-sm font-medium uppercase tracking-wider">ID_User</th>
-                                <th class="py-3 px-5 text-left text-sm font-medium uppercase tracking-wider">Login</th>
-                                <th class="py-3 px-5 text-left text-sm font-medium uppercase tracking-wider">Password</th>
-                                <th class="py-3 px-5 text-left text-sm font-medium uppercase tracking-wider">Type User</th>
+                                <th class="py-3 px-5 text-left text-sm font-medium uppercase tracking-wider">ID_Glass</th>
+                                <th class="py-3 px-5 text-left text-sm font-medium uppercase tracking-wider">Libelle</th>
+                                <th class="py-3 px-5 text-left text-sm font-medium uppercase tracking-wider">Type</th>
+                                <th class="py-3 px-5 text-left text-sm font-medium uppercase tracking-wider">Type of Glass</th>
+                                <th class="py-3 px-5 text-left text-sm font-medium uppercase tracking-wider">SPH</th>
+                                <th class="py-3 px-5 text-left text-sm font-medium uppercase tracking-wider">Cylindre</th>
                                 <th class="py-3 px-5 text-left text-sm font-medium uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-600">
                             <?php
                             if ($result->num_rows > 0) {
-                                while ($user = $result->fetch_assoc()) {
+                                while ($glass = $result->fetch_assoc()) {
                                     echo "<tr class='hover:bg-gray-700 transition duration-200'>";
-                                    echo "<td class='py-3 px-5 text-sm'>{$user['id_user']}</td>";
-                                    echo "<td class='py-3 px-5 text-sm'>{$user['login']}</td>";
-                                    echo "<td class='py-3 px-5 text-sm'>{$user['password']}</td>";
-                                    echo "<td class='py-3 px-5 text-sm'>{$user['type_user']}</td>";
+                                    echo "<td class='py-3 px-5 text-sm'>{$glass['id_glass']}</td>";
+                                    echo "<td class='py-3 px-5 text-sm'>{$glass['libelle']}</td>";
+                                    echo "<td class='py-3 px-5 text-sm'>{$glass['type']}</td>";
+                                    echo "<td class='py-3 px-5 text-sm'>{$glass['type_glass']}</td>";
+                                    echo "<td class='py-3 px-5 text-sm'>{$glass['SPH']}</td>";
+                                    echo "<td class='py-3 px-5 text-sm'>{$glass['cylindre']}</td>";
                                     echo "<td class='py-3 px-5 text-sm'>
-                                            <a href='update.php?id={$user['id_user']}' class='text-blue-400 hover:text-blue-300'>Update</a> | 
-                                            <a href='delete.php?id={$user['id_user']}' class='text-red-400 hover:text-red-300' onclick=\"return confirm('Are you sure you want to delete this user?');\">Delete</a>
+                                            <a href='update_glass.php?id={$glass['id_glass']}' class='text-blue-400 hover:text-blue-300'>Update</a> | 
+                                            <a href='delete_glass.php?id={$glass['id_glass']}' class='text-red-400 hover:text-red-300' onclick=\"return confirm('Are you sure you want to delete this glass?');\">Delete</a>
                                           </td>";
                                     echo "</tr>";
                                 }
                             } else {
-                                echo "<tr><td colspan='5' class='text-center py-4 text-sm text-gray-400'>No users found</td></tr>";
+                                echo "<tr><td colspan='7' class='text-center py-4 text-sm text-gray-400'>No glasses found</td></tr>";
                             }
                             ?>
                         </tbody>
